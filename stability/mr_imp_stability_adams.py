@@ -99,7 +99,7 @@ def imex_adams(y, h, t, lbda, mu, state_hist, rhs_hist, rhsns_hist,
     else:
         # Adams way.
         y_new = (1/(1 - (9.0/24.0)*h*mu)) * \
-            (state_hist[0, 0] +
+            (state_hist[0] +
              (19.0/24.0)*h*rhs_hist[0] -
              (5.0/24.0)*h*rhs_hist[1] +
              (1.0/24.0)*h*rhs_hist[2] +
@@ -166,7 +166,7 @@ def imex_adams(y, h, t, lbda, mu, state_hist, rhs_hist, rhsns_hist,
         else:
             # Adams way.
             y_new = (1/(1 - (9.0/24.0)*h*mu)) * \
-                (state_hist[0, 0] +
+                (state_hist[0] +
                  (19.0/24.0)*h*rhs_hist[0] -
                  (5.0/24.0)*h*rhs_hist[1] +
                  (1.0/24.0)*h*rhs_hist[2] +

@@ -97,7 +97,7 @@ def imex_adams(y, h, t, lbda, mu, state_hist, rhs_hist, rhsns_hist,
     else:
         # Adams way.
         y_new = (1/(1 - (9.0/24.0)*h*mu)) * \
-            (state_hist[0, 0] +
+            (state_hist[0] +
              (19.0/24.0)*h*rhs_hist[0] -
              (5.0/24.0)*h*rhs_hist[1] +
              (1.0/24.0)*h*rhs_hist[2] +
@@ -164,7 +164,7 @@ def imex_adams(y, h, t, lbda, mu, state_hist, rhs_hist, rhsns_hist,
         else:
             # Adams way.
             y_new = (1/(1 - (9.0/24.0)*h*mu)) * \
-                (state_hist[0, 0] +
+                (state_hist[0] +
                  (19.0/24.0)*h*rhs_hist[0] -
                  (5.0/24.0)*h*rhs_hist[1] +
                  (1.0/24.0)*h*rhs_hist[2] +
@@ -181,8 +181,8 @@ def main():
     t_start = 0
     t_end = 100
     dt = 1
-    order = 2
-    srs = [1, 2, 3, 4, 5]
+    order = 4
+    srs = [1]
 
     # Set ratio criteria - order 4 is persnickety
     if order < 4:
@@ -194,7 +194,7 @@ def main():
     # root locus: loop through theta.
     thetas = np.linspace(-np.pi, np.pi, n_thetas)
     theta_mu = -np.pi
-    rs_mu = [5]
+    rs_mu = [2]
     imex = True
 
     import matplotlib.pyplot as plt
@@ -214,7 +214,7 @@ def main():
             # lambdas for all mus in the left half plane.
             for ith, theta in enumerate(thetas):
 
-                print("Theta = ", theta)
+                # print("Theta = ", theta)
                 r = 0
                 dr = 10
                 while abs(dr) > 0.00001:
@@ -289,12 +289,12 @@ def main():
                     else:
                         # Success: increase r.
                         r += 0.01
-                        if r >= 12:
+                        if r >= 15:
                             break
 
                 if r < rs_max[ith]:
                     rs_max[ith] = r
-                    print("r = ", r)
+                    # print("r = ", r)
 
         reals = np.real(rs_max*np.exp(1j*thetas))
         imags = np.imag(rs_max*np.exp(1j*thetas))
